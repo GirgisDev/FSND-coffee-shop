@@ -5,9 +5,9 @@ from jose import jwt
 from urllib.request import urlopen
 
 
-AUTH0_DOMAIN = 'udacity-fsnd.auth0.com'
+AUTH0_DOMAIN = 'tdom.us.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'dev'
+API_AUDIENCE = 'https://tdom.us.auth0.com/api/v2/'
 
 # AuthError Exception
 class AuthError(Exception):
@@ -62,7 +62,7 @@ def check_permissions(permission, payload):
       'code': 'unauthorized',
       'description': 'Permission not found.'
     }, 403)
-    
+
   return True
 
 
