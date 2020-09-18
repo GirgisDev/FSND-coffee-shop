@@ -1,5 +1,5 @@
 import json
-from flask import request, _request_ctx_stack
+from flask import request, _request_ctx_stack, abort, jsonify
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
@@ -7,7 +7,7 @@ from urllib.request import urlopen
 
 AUTH0_DOMAIN = 'tdom.us.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'https://tdom.us.auth0.com/api/v2/'
+API_AUDIENCE = 'drinks'
 
 # AuthError Exception
 class AuthError(Exception):
@@ -121,13 +121,13 @@ def verify_decode_jwt(token):
 
 
 def requires_auth(permission=''):
-    def requires_auth_decorator(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            token = get_token_auth_header()
-            payload = verify_decode_jwt(token)
-            check_permissions(permission, payload)
-            return f(payload, *args, **kwargs)
+  def requires_auth_decorator(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+      token = get_token_auth_header()
+      payload = verify_decode_jwt(token)
+      check_permissions(permission, payload)
+      return f(*args, **kwargs)
 
-        return wrapper
-    return requires_auth_decorator
+    return wrapper
+  return requires_auth_decorator
